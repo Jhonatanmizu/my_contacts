@@ -14,4 +14,4 @@ def index(request: HttpRequest) -> HttpResponse:
     Returns:
         HttpResponse: _description_
     """
-    return render(request, 'contact/index.html')
+    return render(request, 'contact/pages/index.html')

@@ -1,8 +1,8 @@
 """
  Contact models
 """
-from django.db import models  # type: ignore
-from django.utils import timezone  # type: ignore
+from django.db import models
+from django.utils import timezone
 
 
 class Category(models.Model):

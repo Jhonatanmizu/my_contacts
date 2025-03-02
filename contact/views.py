@@ -1,6 +1,6 @@
 """ Contacts Views """
-from django.http import HttpRequest, HttpResponse  # type: ignore
-from django.shortcuts import render  # type: ignore
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import render
 
 # Create your views here.
 

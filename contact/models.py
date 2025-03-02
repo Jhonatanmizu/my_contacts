@@ -5,6 +5,14 @@ from django.db import models  # type: ignore
 from django.utils import timezone  # type: ignore
 
 
+class Category(models.Model):
+    """
+    Category model
+    """
+    name = models.CharField(max_length=254)
+    description = models.TextField(blank=True)
+
+
 class Contact(models.Model):
     """ 
     Contact model
@@ -17,6 +25,8 @@ class Contact(models.Model):
     is_visible = models.BooleanField(default=True)
     picture = models.ImageField(
         blank=True, null=True, upload_to='pictures/contacts/%Y/%m/')
+    category = models.ForeignKey(
+        Category, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return f'{self.name} / {self.email} / {self.phone_number}'

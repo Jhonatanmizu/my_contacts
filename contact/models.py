@@ -13,6 +13,11 @@ class Category(models.Model):
     description = models.TextField(blank=True)
     created_at = models.DateTimeField(default=timezone.now)
 
+    class Meta:
+        """Category model metadata"""
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
+
     def __str__(self) -> str:
         return f'{self.name}'
 

@@ -25,6 +25,7 @@ def contact(request: HttpRequest, contact_id: int) -> HttpResponse:
     target_contact = get_object_or_404(Contact, pk=contact_id, is_visible=True)
 
     context = {
+        "document_title": f'{target_contact.name}',
         'contact': target_contact
     }
     return render(request, 'contact/pages/contact.html', context)

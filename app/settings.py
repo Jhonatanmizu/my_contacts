@@ -132,3 +132,8 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+try:
+    from .local_settings import *  # pylint: disable=wildcard-import, unused-wildcard-import, unused-variable, no-name-in-module, import-error
+except ImportError:
+    pass

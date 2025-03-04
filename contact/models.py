@@ -3,7 +3,7 @@
 """
 from django.db import models
 from django.utils import timezone
-
+from django.contrib.auth.models import  User
 
 class Category(models.Model):
     """
@@ -36,6 +36,7 @@ class Contact(models.Model):
         blank=True, null=True, upload_to='pictures/contacts/%Y/%m/')
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True, blank=True)
+    owner = models.ForeignKey(User,on_delete=models.SET_NULL,blank=True,null=True)
 
     def __str__(self):
         return f'{self.name} / {self.email} / {self.phone_number}'

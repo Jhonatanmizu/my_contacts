@@ -6,8 +6,6 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from contact.models import Contact
 
-# Create your views here.
-
 
 def index(request: HttpRequest) -> HttpResponse:
     """_summary_

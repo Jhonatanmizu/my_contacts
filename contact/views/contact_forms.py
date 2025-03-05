@@ -1,7 +1,7 @@
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 
-from contact.forms.contact_forms_module import ContactForm
+from contact.forms import ContactForm
 
 
 def create(request: HttpRequest) -> HttpResponse:

@@ -1,4 +1,5 @@
 """ Contacts Views """
+from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
@@ -12,9 +13,13 @@ def index(request: HttpRequest) -> HttpResponse:
     """_summary_
         Contact index view
     """
-    contacts = Contact.objects.filter(is_visible=True).order_by("-id")[:10]
+    contacts = Contact.objects.filter(is_visible=True).order_by("-id")
+    paginator = Paginator(contacts, 12)
+
+    page_number = request.GET.get("page", 1)
+    page_obj = paginator.get_page(page_number)
     context = {
-        'contacts': contacts
+        'page_obj': page_obj
     }
     return render(request, 'contact/pages/index.html', context)
 
@@ -32,8 +37,14 @@ def search_contacts(request: HttpRequest) -> HttpResponse:
         Q(name__icontains=search_term) | Q(email__icontains=search_term),
         is_visible=True
     ).order_by("-id")
+
+    paginator = Paginator(contacts, 12)
+
+    page_number = request.GET.get("page", 1)
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'contacts': contacts
+        'page_obj': page_obj
     }
     return render(request, 'contact/pages/index.html', context)
 

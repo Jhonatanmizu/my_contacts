@@ -45,7 +45,7 @@ def update(request: HttpRequest, contact_id) -> HttpResponse:
 
     if not request.method == "GET":
         context = {
-            "document_title": 'New Contact',
+            "document_title": 'Update Contact',
             'form': form,
             "form_action": form_action
         }
@@ -58,8 +58,27 @@ def update(request: HttpRequest, contact_id) -> HttpResponse:
     new_form = ContactForm(instance=contact)
 
     context = {
-        "document_title": 'New Contact',
+        "document_title": 'Update Contact',
         'form': new_form,
         "form_action": form_action
     }
     return render(request, 'contact/pages/create.html', context)
+
+
+def delete(request: HttpRequest, contact_id) -> HttpResponse:
+    """_summary_
+        Delete Contact view
+    """
+    contact = get_object_or_404(Contact, pk=contact_id, is_visible=True)
+    confirmation = request.POST.get('confirmation', 'no')
+
+    context = {
+        "document_title": 'Delete Contact',
+        'contact': contact,
+        "confirmation": confirmation
+    }
+
+    if confirmation == 'yes':
+        contact.delete()
+        return redirect('contact:index')
+    return render(request, 'contact/pages/contact.html', context=context)

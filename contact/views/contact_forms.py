@@ -11,7 +11,7 @@ def create(request: HttpRequest) -> HttpResponse:
         Create Contact view
     """
     form_action = reverse('contact:create')
-    form = ContactForm(data=request.POST)
+    form = ContactForm(data=request.POST, files=request.FILES)
     if not request.method == "GET":
         context = {
             "document_title": 'New Contact',
@@ -41,7 +41,8 @@ def update(request: HttpRequest, contact_id) -> HttpResponse:
     contact = get_object_or_404(Contact, pk=contact_id, is_visible=True)
 
     form_action = reverse('contact:update', args=(contact_id,))
-    form = ContactForm(data=request.POST, instance=contact)
+    form = ContactForm(data=request.POST,
+                       files=request.FILES, instance=contact)
 
     if not request.method == "GET":
         context = {
@@ -52,6 +53,7 @@ def update(request: HttpRequest, contact_id) -> HttpResponse:
         if form.is_valid():
             created_contact = form.save()
             contact_id = created_contact.pk
+            print(f'{created_contact}')
             return redirect('contact:update', contact_id=contact_id)
         return render(request, 'contact/pages/create.html', context)
 

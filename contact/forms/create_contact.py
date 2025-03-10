@@ -6,12 +6,31 @@ from contact.models import Contact
 
 class ContactForm(forms.ModelForm):
     """ Contact Form """
+
+    picture = forms.ImageField(
+        widget=forms.FileInput(
+            attrs={
+                'accept': 'image/*',
+            }
+        ),
+        required=False
+    )
+
     name = forms.CharField(
         widget=forms.TextInput(attrs={
             'placeholder': 'Type your name here'
         }),
         help_text='Type the contact name here'
     )
+
+    class Meta:
+        """ Contact Form Meta """
+        model = Contact
+        fields = (
+            'name', 'phone_number',
+            'email', 'description', 'category',
+            'picture',
+        )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -41,26 +60,3 @@ class ContactForm(forms.ModelForm):
                 )
             )
         return phone_number
-
-    class Meta:
-        """ Contact Form Meta """
-        model = Contact
-        fields = (
-            'name', 'email', 'phone_number', 'description',
-            'category', 'picture'
-        )
-        widgets = {
-            'name': forms.TextInput(attrs={
-                'placeholder': 'Type your name here'
-            }),
-            'email': forms.TextInput(attrs={
-                'placeholder': 'Type your email here'
-            }),
-            'phone_number': forms.TextInput(attrs={
-                'placeholder': 'Type your phone number here',
-                "data-mask": "(00) 00000-0000"
-            }),
-            'description': forms.Textarea(attrs={
-                'placeholder': 'Type your description here'
-            }),
-        }

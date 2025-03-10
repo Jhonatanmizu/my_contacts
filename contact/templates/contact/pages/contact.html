@@ -34,6 +34,9 @@
     <b> Created at: </b>
     {{contact.created_at}}
   </p>
+  {% if contact.picture %}
+  <p><img src="{{contact.picture.url}}" alt="{{contact.name}}"></p>
+  {% endif %}
 </div>
 
 

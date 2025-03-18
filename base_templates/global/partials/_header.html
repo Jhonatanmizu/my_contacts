@@ -4,13 +4,27 @@
     </h1>
     <nav class="menu">
       <ul class="menu-list">
-        <a href="{% url 'contact:create' %}" class="menu-link">
-          Create
-        </a>
-        <li class="menu-item"><a href="url" class="menu-link">Login</a></li>
-        <li class="menu-item">
-          <a href="url" class="menu-link">Cadastre-se</a>
-        </li>
+          {% if not user.is_authenticated %}
+         <li class="menu-item"><a href="{% url 'authentication:signin' %}" class="menu-link">Sign In</a></li>
+          <li class="menu-item">
+            <a href="{% url 'authentication:register'%}" class="menu-link">Sign Up</a>
+          </li>
+          {% else %}
+          <li class="menu-item">
+            <a href="{% url 'authentication:update'%}" class="menu-link">Profile</a>
+          </li>
+          <li class="menu-item">
+            <a href="{% url 'contact:create' %}" class="menu-link">
+              Create Contact
+            </a>
+          </li>
+          <li class="menu-item">
+            <a href="{% url 'authentication:signout' %}" class="menu-link">
+              Sign Out
+            </a>
+          </li>
+          {% endif %}
+
       </ul>
     </nav>
     <div class="search">

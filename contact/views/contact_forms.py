@@ -13,7 +13,8 @@ def create(request: HttpRequest) -> HttpResponse:
         Create Contact view
     """
     form_action = reverse('contact:create')
-    form = ContactForm(data=request.POST, files=request.FILES)
+    form = ContactForm(data=request.POST,
+                       files=request.FILES)
     if not request.method == "GET":
         context = {
             "document_title": 'New Contact',
@@ -21,7 +22,9 @@ def create(request: HttpRequest) -> HttpResponse:
             "form_action": form_action
         }
         if form.is_valid():
-            created_contact = form.save()
+            created_contact = form.save(commit=False)
+            created_contact.owner = request.user
+            created_contact.save()
             contact_id = created_contact.pk
             return redirect('contact:update', contact_id=contact_id)
 
@@ -41,7 +44,9 @@ def update(request: HttpRequest, contact_id) -> HttpResponse:
     """_summary_
         Update Contact view
     """
-    contact = get_object_or_404(Contact, pk=contact_id, is_visible=True)
+    user = request.user
+    contact = get_object_or_404(
+        Contact, pk=contact_id, is_visible=True, owner=user.pk)
 
     form_action = reverse('contact:update', args=(contact_id,))
     form = ContactForm(data=request.POST,
@@ -75,7 +80,9 @@ def delete(request: HttpRequest, contact_id) -> HttpResponse:
     """_summary_
         Delete Contact view
     """
-    contact = get_object_or_404(Contact, pk=contact_id, is_visible=True)
+    user = request.user
+    contact = get_object_or_404(
+        Contact, pk=contact_id, is_visible=True, owner=user.pk)
     confirmation = request.POST.get('confirmation', 'no')
 
     context = {

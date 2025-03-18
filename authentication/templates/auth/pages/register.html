@@ -1,7 +1,12 @@
 {% extends "global/base.html" %} {% block content %}
 
 <div class="form-wrapper">
+
+  {% if not user.is_authenticated %}
   <h2>Register User</h2>
+  {% else %}
+  <h2>Update User</h2>
+  {% endif %}
 
   <form action="{{form_action}}" method="POST">
     {% csrf_token %}

@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
@@ -6,6 +7,7 @@ from contact.forms import ContactForm
 from contact.models import Contact
 
 
+@login_required(login_url="authentication:signin")
 def create(request: HttpRequest) -> HttpResponse:
     """_summary_
         Create Contact view
@@ -34,6 +36,7 @@ def create(request: HttpRequest) -> HttpResponse:
     return render(request, 'contact/pages/create.html', context)
 
 
+@login_required(login_url="authentication:signin")
 def update(request: HttpRequest, contact_id) -> HttpResponse:
     """_summary_
         Update Contact view
@@ -67,6 +70,7 @@ def update(request: HttpRequest, contact_id) -> HttpResponse:
     return render(request, 'contact/pages/create.html', context)
 
 
+@login_required(login_url="authentication:signin")
 def delete(request: HttpRequest, contact_id) -> HttpResponse:
     """_summary_
         Delete Contact view
